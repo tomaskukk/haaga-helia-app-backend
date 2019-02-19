@@ -8,7 +8,6 @@ usersRouter.get('/', async (request, response) => {
         .find({})
         .populate('courses', { __v: 0, user: 0 })
 
-    console.log(users.map(User.format))
     response.json(users.map(User.format))
 })
 
@@ -18,7 +17,6 @@ usersRouter.get('/:id', async (request, response) => {
         .findById(request.params.id)
         .populate('courses', { __v: 0, user: 0 })
 
-        console.log(response)
         response.json(user.courses.map(Course.format))
         
 	} catch(exception) {
