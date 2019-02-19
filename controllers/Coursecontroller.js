@@ -16,6 +16,14 @@ courseRouter.get("/", async (request, response) => {
 
 courseRouter.delete('/:id', async (request, response) => {
 	try {
+		const token = getTokenFrom(request)
+		const decodedToken = jwt.verify(token, process.env.SECRET)
+
+		if (!token || !decodedToken.id) {
+			return response.status(401).json({ error: 'token missing or invalid' })
+		}
+		console.log(token)
+
 		await Course.findByIdAndDelete(request.params.id)
 		response.status(204).end()
 	} catch(exception) {
@@ -67,7 +75,6 @@ courseRouter.post("/", async (request, response) => {
 				return response.status(401).json({ error: 'token missing or invalid' })
 			}
 			
-
 			const user = await User.findById(decodedToken.id)
 
 			const course = new Course({
@@ -82,7 +89,7 @@ courseRouter.post("/", async (request, response) => {
 
 			user.courses = user.courses.concat(savedCourse._id)
 			await user.save()
-			
+
 			response.json(Course.format(course))
 		
 		} catch (exception) {

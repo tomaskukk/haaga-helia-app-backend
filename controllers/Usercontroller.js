@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/User')
+const Course = require('../models/Course')
 
 usersRouter.get('/', async (request, response) => {
     const users = await User
@@ -16,7 +17,10 @@ usersRouter.get('/:id', async (request, response) => {
         const user = await User
         .findById(request.params.id)
         .populate('courses', { __v: 0, user: 0 })
-		response.json(User.format(user))
+
+        console.log(response)
+        response.json(user.courses.map(Course.format))
+        
 	} catch(exception) {
 		console.log(exception)
 		response.status(400).send({ error: 'malformatted id' })
