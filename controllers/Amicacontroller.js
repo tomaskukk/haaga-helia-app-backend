@@ -3,9 +3,11 @@ const axios = require('axios')
 const fs = require('fs')
     
 const thisDay = new Date()
-const thisDayAsJSON = thisDay.toJSON().substr(0, 10).toString()  
+const thisDayAsJSON = thisDay.toJSON().substr(0, 10).toString()
 
-console.log(thisDayAsJSON)
+const yesterDay = new Date()
+yesterDay.setDate(thisDay.getDate() - 1)
+const yesterDayAsJson = yesterDay.toJSON().substr(0, 10).toString()
 
 amicaRouter.get('/pasila', async (req, res) => {
     try {
@@ -17,10 +19,14 @@ amicaRouter.get('/pasila', async (req, res) => {
             return
         }
         console.log("amicapasila file does not exist")
-        const response = await axios.get(`https://www.fazerfoodco.fi/api/restaurant/menu/week?language=en&restaurantPageId=177431&weekDate=${thisDayAsJSON}`)
+        const response = await axios.get(`https://www.fazerfoodco.fi/api/restaurant/menu/week?language=fi&restaurantPageId=177431&weekDate=${thisDayAsJSON}`)
         console.log("got response pasila")
         let resStringify = JSON.stringify(response.data)
         fs.writeFileSync(`amicapasila${thisDayAsJSON}.json`, resStringify)
+        fs.unlink(`amicapasila${yesterDayAsJson}.json`, (err) => {
+            if (err) throw err;
+            console.log("Pasila yesterday was deleted")
+        })
         res.send(response.data)
     } catch(exception) {
         console.log(exception)
@@ -38,10 +44,14 @@ amicaRouter.get('/malmi', async (req, res) => {
             return
         }
         console.log("amicamalmi file does not exist")
-        const response = await axios.get(`https://www.amica.fi/api/restaurant/menu/week?language=en&restaurantPageId=7498&weekDate=${thisDayAsJSON}`)
+        const response = await axios.get(`https://www.amica.fi/api/restaurant/menu/week?language=fi&restaurantPageId=7498&weekDate=${thisDayAsJSON}`)
         console.log("got response malmi")
         let resStringify = JSON.stringify(response.data)
         fs.writeFileSync(`amicamalmi${thisDayAsJSON}.json`, resStringify)
+        fs.unlink(`amicamalmi${yesterDayAsJson}.json`, (err) => {
+            if (err) throw err;
+            console.log("malmi yesterday was deleted")
+        })
         res.send(response.data)
     } catch(exception) {
         console.log(exception)
@@ -59,10 +69,14 @@ amicaRouter.get('/haaga', async (req, res) => {
             return
         }
         console.log("amicahaaga file does not exist")
-        const response = await axios.get(`https://www.fazerfoodco.fi/api/restaurant/menu/week?language=en&restaurantPageId=244046&weekDate=${thisDayAsJSON}`)
+        const response = await axios.get(`https://www.fazerfoodco.fi/api/restaurant/menu/week?language=fi&restaurantPageId=244046&weekDate=${thisDayAsJSON}`)
         console.log("got response haaga")
         let resStringify = JSON.stringify(response.data)
         fs.writeFileSync(`amicahaaga${thisDayAsJSON}.json`, resStringify)
+        fs.unlink(`amicahaaga${yesterDayAsJson}.json`, (err) => {
+            if (err) throw err;
+            console.log("haaga yesterday was deleted")
+        })
         res.send(response.data)
     } catch(exception) {
         console.log(exception)

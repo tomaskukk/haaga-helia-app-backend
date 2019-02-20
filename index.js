@@ -9,6 +9,7 @@ const config = require("./utils/config")
 const usersRouter = require('./controllers/Usercontroller')
 const loginRouter = require('./controllers/Logincontroller')
 const amicaRouter = require('./controllers/Amicacontroller')
+const bailataanRouter = require('./controllers/Bailataancontroller')
 
 
 mongoose.connect(config.mongoUrl)
@@ -26,6 +27,8 @@ app.use("/api/courses", courseRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/amica', amicaRouter)
+app.use('/api/kide', bailataanRouter)
+app.use(express.static('build'))
 
 const server = http.createServer(app);
 
