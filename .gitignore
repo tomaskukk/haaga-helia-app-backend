@@ -1,6 +1,7 @@
 amicapasila*.json
 amicahaaga*.json
 amicamalmi*.json
+kideapp*.json
 .env
 /node_modules
 /build

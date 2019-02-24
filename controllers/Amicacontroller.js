@@ -23,10 +23,11 @@ amicaRouter.get('/pasila', async (req, res) => {
         console.log("got response pasila")
         let resStringify = JSON.stringify(response.data)
         fs.writeFileSync(`amicapasila${thisDayAsJSON}.json`, resStringify)
+        if (fs.existsSync(`amicapasila${yesterDayAsJson}.json`)) {
         fs.unlink(`amicapasila${yesterDayAsJson}.json`, (err) => {
             if (err) throw err;
             console.log("Pasila yesterday was deleted")
-        })
+        })}
         res.send(response.data)
     } catch(exception) {
         console.log(exception)
