@@ -23,10 +23,11 @@ bailataanRouter.get('/', async (req, res) => {
       console.log("got response kideapp")
       let resStringify = JSON.stringify(response.data)
       fs.writeFileSync(`kideapp${thisDayAsJSON}.json`, resStringify)
+      if (fs.existsSync(`kideapp${yesterDayAsJson}.json`)) {
       fs.unlink(`kideapp${yesterDayAsJson}.json`, (err) => {
         if (err) throw err;
         console.log("kideapp yesterday was deleted")
-    })
+    })}
       res.send(response.data)
   } catch(exception) {
       console.log(exception)

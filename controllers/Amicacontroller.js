@@ -49,10 +49,11 @@ amicaRouter.get('/malmi', async (req, res) => {
         console.log("got response malmi")
         let resStringify = JSON.stringify(response.data)
         fs.writeFileSync(`amicamalmi${thisDayAsJSON}.json`, resStringify)
+        if (fs.existsSync(`amicamalmi${yesterDayAsJson}.json`)) {
         fs.unlink(`amicamalmi${yesterDayAsJson}.json`, (err) => {
             if (err) throw err;
             console.log("malmi yesterday was deleted")
-        })
+        })}
         res.send(response.data)
     } catch(exception) {
         console.log(exception)
@@ -74,10 +75,11 @@ amicaRouter.get('/haaga', async (req, res) => {
         console.log("got response haaga")
         let resStringify = JSON.stringify(response.data)
         fs.writeFileSync(`amicahaaga${thisDayAsJSON}.json`, resStringify)
+        if (fs.existsSync(`amicahaaga${yesterDayAsJson}.json`)) {
         fs.unlink(`amicahaaga${yesterDayAsJson}.json`, (err) => {
             if (err) throw err;
             console.log("haaga yesterday was deleted")
-        })
+        })}
         res.send(response.data)
     } catch(exception) {
         console.log(exception)

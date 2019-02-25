@@ -13,20 +13,20 @@ const bailataanRouter = require('./controllers/Bailataancontroller')
 const lukkariRouter = require('./controllers/Lukkarirouter')
 
 
-mongoose.connect(config.mongoUrl)
+/* mongoose.connect(config.mongoUrl)
     .then( () => {
         console.log("Connected to db ", config.mongoUrl)
     })
     .catch(err => {
         console.log(err);
-    })
+    }) */
   
 
 app.use(cors())
-app.use(bodyParser.json())
+/* app.use(bodyParser.json())
 app.use("/api/courses", courseRouter)
 app.use('/api/users', usersRouter)
-app.use('/api/login', loginRouter)
+app.use('/api/login', loginRouter) */
 app.use('/api/amica', amicaRouter)
 app.use('/api/kide', bailataanRouter)
 app.use('/api/lukkari', lukkariRouter)
