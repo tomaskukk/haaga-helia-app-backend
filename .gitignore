@@ -1,6 +1,9 @@
-amicapasila*.json
-amicahaaga*.json
-amicamalmi*.json
+fiamicapasila*.json
+fiamicahaaga*.json
+fiamicamalmi*.json
+enamicapasila*.json
+enamicahaaga*.json
+enamicamalmi*.json
 kideapp*.json
 .env
 /node_modules

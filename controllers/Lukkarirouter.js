@@ -7,8 +7,6 @@ lukkariRouter.get('/:tunnus', async (request, response) => {
     const haeRyhmaKalenteri = await axios.post(`https://lukkarit.haaga-helia.fi/haeRyhmaKalenteri.php?ryhmanimi=${tunnus}`)
 
     let sessionCookie = (haeRyhmaKalenteri.headers['set-cookie'][0]).split(';')[0]
-    console.log(sessionCookie)
-    console.log(typeof sessionCookie)
     const config = {
       headers: { 'Cookie': sessionCookie }
   }
@@ -19,8 +17,6 @@ lukkariRouter.get('/:tunnus', async (request, response) => {
       
 
     let kalenteriData = (kalenteri.data)
-    console.log(kalenteriData)
-    console.log(kalenteriData.includes('Minna'))
     response.send(kalenteri.data)
 
   } catch(exception) {
