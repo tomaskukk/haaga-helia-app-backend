@@ -4,7 +4,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const courseRouter = require("./controllers/Coursecontroller")
+const personalLukkariRouter = require("./controllers/PersonalLukkaricontroller")
 const config = require("./utils/config")
 const usersRouter = require('./controllers/Usercontroller')
 const loginRouter = require('./controllers/Logincontroller')
@@ -19,12 +19,12 @@ const lukkariRouter = require('./controllers/Lukkarirouter')
     })
     .catch(err => {
         console.log(err);
-    }) */
-  
+    }) 
+   */
 
 app.use(cors())
-/* app.use(bodyParser.json())
-app.use("/api/courses", courseRouter)
+app.use(bodyParser.json())
+/* app.use('/api/personallukkari', personalLukkariRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter) */
 app.use('/api/amica', amicaRouter)

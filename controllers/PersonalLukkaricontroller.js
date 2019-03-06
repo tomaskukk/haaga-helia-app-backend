@@ -1,20 +1,20 @@
-const courseRouter = require("express").Router()
-const Course = require("../models/Course")
+const personalLukkariRouter = require("express").Router()
+const Lukkari = require("../models/Lukkari")
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 
 
-courseRouter.get("/", async (request, response) => {
-	const courses = await Course
+personalLukkariRouter.get("/", async (request, response) => {
+	const lukkari = await Lukkari
 	.find({})
 	.populate('user', {username: 1, name: 1})
 
-    response.json(courses.map(Course.format))
+    response.json(lukkari.map(Lukkari.format))
 })
 
 
 
-courseRouter.delete('/:id', async (request, response) => {
+personalLukkariRouter.delete('/:id', async (request, response) => {
 	try {
 		const token = getTokenFrom(request)
 		const decodedToken = jwt.verify(token, process.env.SECRET)
@@ -24,7 +24,7 @@ courseRouter.delete('/:id', async (request, response) => {
 		}
 		console.log(token)
 
-		await Course.findByIdAndDelete(request.params.id)
+		await Lukkari.findByIdAndDelete(request.params.id)
 		response.status(204).end()
 	} catch(exception) {
 		console.log(exception)
@@ -32,7 +32,7 @@ courseRouter.delete('/:id', async (request, response) => {
 	}
 })
 
-courseRouter.put('/:id', async (request, response) => {
+personalLukkariRouter.put('/:id', async (request, response) => {
 	const body = request.body
 	console.log(body)
 	console.log("PUT REQUEST STARTED")
@@ -64,7 +64,7 @@ const getTokenFrom = (request) => {
 	return null
 }
 
-courseRouter.post("/", async (request, response) => {
+personalLukkariRouter.post("/", async (request, response) => {
 	const body = request.body
 	try {	
             console.log("LUODAAN UUSI KURSSI")
@@ -77,20 +77,19 @@ courseRouter.post("/", async (request, response) => {
 			
 			const user = await User.findById(decodedToken.id)
 
-			const course = new Course({
-				name: body.name,
-				url: body.url,
+			const lukkari = new Lukkari({
+				html: body.html,
 				user: user._id
 			})
-			if (course.name === undefined && course.url === undefined) {
-				return response.status(400).json({error: 'Name or url missing'})
+			if (lukkari.html === undefined) {
+				return response.status(400).json({error: 'Html missing'})
 			}
-			const savedCourse = await course.save()
+			const savedLukkari = await lukkari.save()
 
-			user.courses = user.courses.concat(savedCourse._id)
+			user.lukkari = user.lukkari.concat(savedLukkari._id)
 			await user.save()
 
-			response.json(Course.format(course))
+			response.json(Lukkari.format(lukkari))
 		
 		} catch (exception) {
 			
@@ -101,4 +100,4 @@ courseRouter.post("/", async (request, response) => {
 
 
  
-module.exports = courseRouter
+module.exports = personalLukkariRouter

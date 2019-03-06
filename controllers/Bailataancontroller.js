@@ -21,7 +21,7 @@ bailataanRouter.get('/', async (req, res) => {
           return
       }
       console.log("kideapp file does not exist")
-      const response = await axios.get('https://api.bailataan.fi/api/products?city=helsinki')
+      const response = await axios.get('https://api.bailataan.fi/api/products?city=Pääkaupunkiseutu')
       console.log("got response kideapp")
       let resStringify = JSON.stringify(response.data)
       fs.writeFileSync(`kideapp${thisDayAsJSON()}.json`, resStringify)

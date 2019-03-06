@@ -1,23 +1,25 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/User')
-const Course = require('../models/Course')
+const Lukkari = require('../models/Lukkari')
 
 usersRouter.get('/', async (request, response) => {
     const users = await User
         .find({})
-        .populate('courses', { __v: 0, user: 0 })
+        .populate('lukkari', { __v: 0, user: 0 })
 
     response.json(users.map(User.format))
 })
 
 usersRouter.get('/:id', async (request, response) => {
 	try {
+        console.log("haetaan henkilon lukkari")
         const user = await User
         .findById(request.params.id)
-        .populate('courses', { __v: 0, user: 0 })
+        .populate('lukkari', { __v: 0, user: 0 })
 
-        response.json(user.courses.map(Course.format))
+
+        response.json(user.lukkari)
         
 	} catch(exception) {
 		console.log(exception)

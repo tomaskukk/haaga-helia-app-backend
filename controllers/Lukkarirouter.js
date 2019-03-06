@@ -1,5 +1,6 @@
 const lukkariRouter = require('express').Router()
 const axios = require('axios')
+const fs = require('fs')
 
 lukkariRouter.get('/:tunnus', async (request, response) => {
   try {
@@ -17,6 +18,7 @@ lukkariRouter.get('/:tunnus', async (request, response) => {
       
 
     let kalenteriData = (kalenteri.data)
+
     response.send(kalenteri.data)
 
   } catch(exception) {
