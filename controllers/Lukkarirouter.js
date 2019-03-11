@@ -12,13 +12,32 @@ lukkariRouter.get('/:tunnus', async (request, response) => {
       headers: { 'Cookie': sessionCookie }
   }
 
+
+    console.log(sessionCookie)
     const paivitaKori = await axios.get(`https://lukkarit.haaga-helia.fi/paivitaKori.php?toiminto=addGroup&code=${tunnus.toUpperCase()}&viewReply=true`, config)
     
     const kalenteri = await axios.get(`https://lukkarit.haaga-helia.fi/kalenteri.php`, config)
       
+    response.send(`${sessionCookie}\n` + kalenteri.data)
 
-    let kalenteriData = (kalenteri.data)
+  } catch(exception) {
+    console.log(exception)
+  }
+})
 
+lukkariRouter.get('/:week/:cookie', async (request, response) => {
+  try {
+    const week = request.params.week
+
+    const cookie = request.params.cookie
+
+    console.log(cookie)
+
+    const config = {
+      headers: { 'Cookie': cookie }
+  }
+    const kalenteri = await axios.get(`https://lukkarit.haaga-helia.fi/kalenteri.php?date=${week}`, config)
+      
     response.send(kalenteri.data)
 
   } catch(exception) {

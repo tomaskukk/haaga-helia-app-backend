@@ -66,8 +66,8 @@ amicaRouter.get('/malmi/:lang', async (req, res) => {
     } catch(exception) {
         console.log(exception)
     }
-   
 })
+   
 
 amicaRouter.get('/haaga/:lang', async (req, res) => {
     try {
