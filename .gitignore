@@ -8,3 +8,7 @@ kideapp*.json
 .env
 /node_modules
 /build
+ont.js
+client_secret.json
+traffic.txt
+
