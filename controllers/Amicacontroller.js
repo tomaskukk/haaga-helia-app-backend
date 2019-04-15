@@ -2,7 +2,16 @@ const amicaRouter = require('express').Router()
 const axios = require('axios')
 const fs = require('fs')
     
+const getThisDay = () => new Date()
+
 const thisDayAsJSON = () => new Date().toJSON().substr(0, 10).toString()
+
+const tomorrowAsJSON = () => {
+    const d = getThisDay()
+    d.setDate(d.getDate() + 1)
+    return d.toJSON().substr(0, 10).toString()
+}
+
 
 const yesterDayAsJson = () => {
     const thisDay = new Date()
@@ -25,7 +34,7 @@ amicaRouter.get('/pasila/:lang', async (req, res) => {
             return
         }
         console.log("amicapasila file does not exist")
-        const response = await axios.get(`https://www.fazerfoodco.fi/api/restaurant/menu/week?language=${lang}&restaurantPageId=177431&weekDate=${thisDayAsJSON()}`)
+        const response = await axios.get(`https://www.fazerfoodco.fi/api/restaurant/menu/week?language=${lang}&restaurantPageId=177431&weekDate=${tomorrowAsJSON()}`)
         console.log("got response pasila")
         let resStringify = JSON.stringify(response.data)
         fs.writeFileSync(`${lang}amicapasila${thisDayAsJSON()}.json`, resStringify)
@@ -53,7 +62,7 @@ amicaRouter.get('/malmi/:lang', async (req, res) => {
             return
         }
         console.log("amicamalmi file does not exist")
-        const response = await axios.get(`https://www.amica.fi/api/restaurant/menu/week?language=${lang}&restaurantPageId=7498&weekDate=${thisDayAsJSON()}`)
+        const response = await axios.get(`https://www.amica.fi/api/restaurant/menu/week?language=${lang}&restaurantPageId=7498&weekDate=${tomorrowAsJSON()}`)
         console.log("got response malmi")
         let resStringify = JSON.stringify(response.data)
         fs.writeFileSync(`${lang}amicamalmi${thisDayAsJSON()}.json`, resStringify)
@@ -82,7 +91,7 @@ amicaRouter.get('/haaga/:lang', async (req, res) => {
             return
         }
         console.log("amicahaaga file does not exist")
-        const response = await axios.get(`https://www.fazerfoodco.fi/api/restaurant/menu/week?language=${lang}&restaurantPageId=244046&weekDate=${thisDayAsJSON()}`)
+        const response = await axios.get(`https://www.fazerfoodco.fi/api/restaurant/menu/week?language=${lang}&restaurantPageId=244046&weekDate=${tomorrowAsJSON()}`)
         console.log("got response haaga")
         let resStringify = JSON.stringify(response.data)
         fs.writeFileSync(`${lang}amicahaaga${thisDayAsJSON()}.json`, resStringify)

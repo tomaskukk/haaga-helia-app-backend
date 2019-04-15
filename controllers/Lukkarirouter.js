@@ -25,6 +25,7 @@ lukkariRouter.get('/:tunnus', async (request, response) => {
   }
 })
 
+
 lukkariRouter.get('/:week/:cookie', async (request, response) => {
   try {
     const week = request.params.week
