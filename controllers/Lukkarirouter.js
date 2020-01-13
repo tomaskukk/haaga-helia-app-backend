@@ -1,29 +1,39 @@
 const lukkariRouter = require('express').Router()
 const axios = require('axios')
-const fs = require('fs')
+
 
 lukkariRouter.get('/:tunnus', async (request, response) => {
-  try {
     const tunnus = request.params.tunnus
-    const haeRyhmaKalenteri = await axios.post(`https://lukkarit.haaga-helia.fi/haeRyhmaKalenteri.php?ryhmanimi=${tunnus}`)
+    var request = require('request');
 
-    let sessionCookie = (haeRyhmaKalenteri.headers['set-cookie'][0]).split(';')[0]
-    const config = {
-      headers: { 'Cookie': sessionCookie }
-  }
+    const params = new URLSearchParams()
+    params.append('hakukohde', 'ryhma')
+    params.append('hakusana', tunnus.toString())
+    
+    const firstRequest = await axios.post('https://lukkarit.haaga-helia.fi/teeHaku.php', params)
 
+    let sessionCookie = (firstRequest.headers['set-cookie'][0]).split(';')[0]
 
-    console.log(sessionCookie)
-    const paivitaKori = await axios.get(`https://lukkarit.haaga-helia.fi/paivitaKori.php?toiminto=addGroup&code=${tunnus.toUpperCase()}&viewReply=true`, config)
+    const config = { headers: { 'Cookie': sessionCookie } }
+
+    const res = firstRequest.data.toString();
+    const splitResponse = res.split('toteutuksenVarausLista.php?code=')
+    let codes = []
+    for (let i = 1; i < splitResponse.length; i++) {
+      let splitPos = splitResponse[i].indexOf("','")
+      codes.push(splitResponse[i].substr(0, splitPos))
+    }
+
+    let codeParam = '';
+    codes.map(c => codeParam += c + '%2C')
+    codeParam = codeParam.substr(0, codeParam.length - 3)  
+    await axios.get(`https://lukkarit.haaga-helia.fi/paivitaKori.php?toiminto=addMulti&code=${codeParam}&viewReply=true`, config)
     
     const kalenteri = await axios.get(`https://lukkarit.haaga-helia.fi/kalenteri.php`, config)
-      
     response.send(`${sessionCookie}\n` + kalenteri.data)
 
-  } catch(exception) {
-    console.log(exception)
-  }
-})
+});
+
 
 
 lukkariRouter.get('/:week/:cookie', async (request, response) => {

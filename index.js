@@ -9,7 +9,7 @@ const amicaRouter = require('./controllers/Amicacontroller')
 const resolvers = require('./controllers/Bailataancontroller')
 const lukkariRouter = require('./controllers/Lukkarirouter')
 const trafficRouter = require('./controllers/Trafficcontroller')
-const graphqlHTTP = require('express-graphql')
+const bailataanRouter = require('./controllers/Bailataancontroller')
 const schema = require('./models/Event')
 
 /* mongoose.connect(config.mongoUrl)
@@ -30,17 +30,16 @@ app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter) */
 app.use('/api/amica', amicaRouter)
 app.use('/api/lukkari', lukkariRouter)
-app.use('/api/ruokala', trafficRouter)
-app.use('/api/graphql', graphqlHTTP({
-    schema: schema,
-    rootValue: resolvers
-}))
+// app.use('/api/ruokala', trafficRouter)
+app.use('/api/kide', bailataanRouter)
 app.use(express.static('build'))
 
 const server = http.createServer(app);
 
-server.listen(config.port, () => {
-    console.log(`Server running on port ${config.port}`)
+const PORT = 3001
+
+server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
 })
 
 server.on("close", () => {

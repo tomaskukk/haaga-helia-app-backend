@@ -27,7 +27,8 @@
     "jest": "^24.7.1",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.12",
-    "selenium-webdriver": "^4.0.0-alpha.1"
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "unirest": "^0.6.0"
   },
   "jest": {
     "testEnvironment": "node"
