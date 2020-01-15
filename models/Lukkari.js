@@ -1,19 +1,19 @@
 
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
-const lukkariSchema = new mongoose.Schema({
-    html: String,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }   
-})
+// const lukkariSchema = new mongoose.Schema({
+//     html: String,
+//     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }   
+// })
 
-lukkariSchema.statics.format = (lukkari) => {
-    return {
-        id: lukkari._id,
-        html: lukkari.url,
-        user: lukkari.user
-    }
-}
+// lukkariSchema.statics.format = (lukkari) => {
+//     return {
+//         id: lukkari._id,
+//         html: lukkari.url,
+//         user: lukkari.user
+//     }
+// }
 
-const Lukkari = mongoose.model('Lukkari', lukkariSchema)
+// const Lukkari = mongoose.model('Lukkari', lukkariSchema)
 
-module.exports = Lukkari
+// module.exports = Lukkari
