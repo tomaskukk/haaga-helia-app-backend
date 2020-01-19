@@ -1,42 +1,53 @@
-// const trafficRouter = require('express').Router()
-// const fs = require('fs')
-// // var GoogleSpreadsheet = require('google-spreadsheet');
-// // var creds = require('../client_secret.json');
+const trafficRouter = require('express').Router()
+const formidable = require('formidable')
+const util = require('util')
+const fs = require('fs')
+const path = require('path')
 
-// // let numberOfDevices = 0
+// let numberOfDevices = 0
 
-// // var doc = new GoogleSpreadsheet('1oUYHjaw2t3ww-KfGEl90AVh6iFp7QdDQpafI341S_bQ');
+// var doc = new GoogleSpreadsheet('1oUYHjaw2t3ww-KfGEl90AVh6iFp7QdDQpafI341S_bQ');
+const dirPath = 'C:/Users/tomsu/Desktop/docker-hhapp/haaga-helia-hpp-backend/public/img' 
 
 
-// // trafficRouter.get('/traffic', async (request, response) => {
+trafficRouter.get('/picture', async (request, response) => {
+  let imageName = ''
+  fs.readdir(dirPath, (err, files) => {
+    if (err) throw err;
+      if (files.length !== 0) {
+        imageName = files[0]
+      } 
+      response.send(imageName)
+  })
+})
 
-// //     response.send(numberOfDevices.toString())
-// // })
+trafficRouter.post('/picture', async (request, response) => {
 
-// // trafficRouter.get('/:maara', async (request, response) => {
-// //     try {
-// //         console.log(`${request.params.maara} devices found nearby`)
-// //         numberOfDevices = request.params.maara
+  removeOldFiles(dirPath)
 
-// //         doc.useServiceAccountAuth(creds, function (err) {
-// //             doc.addRow(1, { Date: new Date().toTimeString().substr(0, 8).toString(), 
-// //                 NumberOfDevices: numberOfDevices }, function(err) {
-// //               if(err) {
-// //                 console.log(err);
-// //               }
-// //             });
-// //           });
+  const form = new formidable()
+  form.uploadDir = dirPath
 
-// //         fs.appendFile('traffic.txt', '\n' + new Date().toTimeString() + " " + 
-// //         numberOfDevices.toString() + " devices found", (err) => {
-// //           if (err) throw err;
-// //         })
+  form.on('fileBegin', (name, file) => {
+    file.path = dirPath + '/' + file.name
+  })
+  form.parse(request, (err, fields, files) => {
+    util.inspect({ fields: fields, files: files })
+  })
+  response.send('Picture saved succesfully')
+})
 
-// //         response.send(numberOfDevices.toString())
-// //     } catch (exception) {
-// //         console.log(exception)
-// //         response.status(500).json({ error: 'something went wrong' })
-// //     }
-// // })
 
-// // module.exports = trafficRouter
+const removeOldFiles = dirPath => {
+  console.log('removing old files')
+  fs.readdir(dirPath, (err, files) => {
+    if (err) throw err;
+    for (const file of files) {
+      fs.unlinkSync(path.join(dirPath, file), err => {
+        if (err) throw err;
+      });
+    }
+  })
+}
+
+module.exports = trafficRouter

@@ -7,6 +7,7 @@ const config = require("./utils/config")
 const amicaRouter = require('./controllers/Amicacontroller')
 const lukkariRouter = require('./controllers/Lukkarirouter')
 const bailataanRouter = require('./controllers/Bailataancontroller')
+const trafficRouter = require('./controllers/Trafficcontroller')
 const schema = require('./models/Event')
 
 /* mongoose.connect(config.mongoUrl)
@@ -25,7 +26,9 @@ app.use(bodyParser.json())
 app.use('/api/amica', amicaRouter)
 app.use('/api/lukkari', lukkariRouter)
 app.use('/api/kide', bailataanRouter)
+app.use('/api/traffic', trafficRouter)
 app.use(express.static('build'))
+app.use(express.static('public'))
 
 const server = http.createServer(app);
 
