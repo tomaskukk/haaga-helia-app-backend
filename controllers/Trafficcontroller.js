@@ -4,9 +4,6 @@ const util = require('util')
 const fs = require('fs')
 const path = require('path')
 
-// let numberOfDevices = 0
-
-// var doc = new GoogleSpreadsheet('1oUYHjaw2t3ww-KfGEl90AVh6iFp7QdDQpafI341S_bQ');
 const dirPath = 'C:/Users/tomsu/Desktop/docker-hhapp/haaga-helia-hpp-backend/public/img' 
 
 
