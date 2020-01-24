@@ -1,42 +1,38 @@
-const trafficRouter = require('express').Router()
-const formidable = require('formidable')
-const util = require('util')
-const fs = require('fs')
-const path = require('path')
+const trafficRouter = require("express").Router();
+const formidable = require("formidable");
+const util = require("util");
+const fs = require("fs");
+const path = require("path");
 
-const dirPath = 'C:/Users/tomsu/Desktop/docker-hhapp/haaga-helia-hpp-backend/public/img' 
+const dirPath =
+  "C:/Users/tomsu/Desktop/docker-hhapp/haaga-helia-hpp-backend/public/img";
 
-
-trafficRouter.get('/picture', async (request, response) => {
-  let imageName = ''
+trafficRouter.get("/picture", async (request, response) => {
+  let imageName = "";
   fs.readdir(dirPath, (err, files) => {
     if (err) throw err;
-      if (files.length !== 0) {
-        imageName = files[0]
-      } 
-      response.send(imageName)
-  })
-})
+    if (files.length !== 0) {
+      imageName = files[0];
+    }
+    response.send(imageName);
+  });
+});
 
-trafficRouter.post('/picture', async (request, response) => {
+trafficRouter.post("/picture", async (request, response) => {
+  removeOldFiles(dirPath);
+  const form = new formidable();
+  form.uploadDir = dirPath;
 
-  removeOldFiles(dirPath)
-
-  const form = new formidable()
-  form.uploadDir = dirPath
-
-  form.on('fileBegin', (name, file) => {
-    file.path = dirPath + '/' + file.name
-  })
+  form.on("fileBegin", (name, file) => {
+    file.path = dirPath + "/" + file.name;
+  });
   form.parse(request, (err, fields, files) => {
-    util.inspect({ fields: fields, files: files })
-  })
-  response.send('Picture saved succesfully')
-})
-
+    util.inspect({ fields: fields, files: files });
+  });
+});
 
 const removeOldFiles = dirPath => {
-  console.log('removing old files')
+  console.log("removing old files");
   fs.readdir(dirPath, (err, files) => {
     if (err) throw err;
     for (const file of files) {
@@ -44,7 +40,7 @@ const removeOldFiles = dirPath => {
         if (err) throw err;
       });
     }
-  })
-}
+  });
+};
 
-module.exports = trafficRouter
+module.exports = trafficRouter;

@@ -1,9 +1,8 @@
-
 // const mongoose = require('mongoose')
 
 // const lukkariSchema = new mongoose.Schema({
 //     html: String,
-//     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }   
+//     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 // })
 
 // lukkariSchema.statics.format = (lukkari) => {
