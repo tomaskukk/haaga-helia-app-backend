@@ -29,7 +29,7 @@ bailataanRouter.get("/", async (req, res) => {
     }
     console.log("kideapp file does not exist");
     const response = await axios.get(
-      "https://api.kide.app/api/products?city=Pääkaupunkiseutu"
+      `https://api.kide.app/api/products?city=${encodeURIComponent('Pääkaupunkiseutu')}`
     );
     console.log("got response kideapp");
     let resStringify = JSON.stringify(response.data);

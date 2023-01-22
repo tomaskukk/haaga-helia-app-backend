@@ -43,7 +43,7 @@ amicaRouter.get("/pasila/:lang", async (req, res) => {
     }
     console.log("amicapasila file does not exist");
     const response = await axios.get(
-      `https://www.fazerfoodco.fi/api/restaurant/menu/week?language=${lang}&restaurantPageId=177431&weekDate=${tomorrowAsJSON()}`
+      `https://www.compass-group.fi/menuapi/week-menus?costCenter=0083&date=${encodeURIComponent(tomorrowAsJSON())}&language=${lang}`
     );
     console.log("got response pasila");
     let resStringify = JSON.stringify(response.data);
