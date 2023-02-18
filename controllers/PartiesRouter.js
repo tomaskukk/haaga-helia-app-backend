@@ -1,4 +1,4 @@
-const bailataanRouter = require("express").Router();
+const partiesRouter = require("express").Router();
 const axios = require("axios");
 const fs = require("fs");
 
@@ -18,7 +18,7 @@ const yesterDayAsJson = () => {
     .toString();
 };
 
-bailataanRouter.get("/", async (req, res) => {
+partiesRouter.get("/", async (req, res) => {
   try {
     if (fs.existsSync(`kideapp${thisDayAsJSON()}.json`)) {
       console.log("file exists");
@@ -46,4 +46,4 @@ bailataanRouter.get("/", async (req, res) => {
   }
 });
 
-module.exports = bailataanRouter;
+module.exports = partiesRouter;

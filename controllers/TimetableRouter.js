@@ -1,7 +1,7 @@
-const lukkariRouter = require("express").Router();
+const timetableRouter = require("express").Router();
 const axios = require("axios");
 
-lukkariRouter.get("/:tunnus", async (request, response) => {
+timetableRouter.get("/:tunnus", async (request, response) => {
   const tunnus = request.params.tunnus;
   var request = require("request");
 
@@ -41,7 +41,7 @@ lukkariRouter.get("/:tunnus", async (request, response) => {
   response.send(`${sessionCookie}\n` + kalenteri.data);
 });
 
-lukkariRouter.get("/:week/:cookie", async (request, response) => {
+timetableRouter.get("/:week/:cookie", async (request, response) => {
   try {
     const week = request.params.week;
 
@@ -63,4 +63,4 @@ lukkariRouter.get("/:week/:cookie", async (request, response) => {
   }
 });
 
-module.exports = lukkariRouter;
+module.exports = timetableRouter;
